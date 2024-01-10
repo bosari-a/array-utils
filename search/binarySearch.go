@@ -74,9 +74,14 @@ func BinaryStrFactory(s []string, sorted bool) *binarySearchStr {
 	return &bs
 }
 
-// Method that implements binary search on an array of strings
-func (bs *binarySearchStr) BinarySearchStr(find string) int {
+// Method that implements binary search on an array of strings.
+// The modifyStr function will modify the string being searched against (not the find string)
+// so that a comparison happens between a segment of the search strings and the string you want to
+// find. Can be useful when parsing lines without needing to create a new equally sized
+// array of search strings.
+func (bs *binarySearchStr) BinarySearchStr(find string, modifyStr func(string) string) int {
 	s := bs.strArray[bs.mid]
+	s = modifyStr(s)
 	if find == s {
 		return bs.mid
 	} else if bs.low == bs.mid && bs.high == bs.mid {
@@ -85,9 +90,9 @@ func (bs *binarySearchStr) BinarySearchStr(find string) int {
 	if find > s {
 		bs.low = bs.mid + 1
 		bs.mid = (bs.low + bs.high) / 2
-		return bs.BinarySearchStr(find)
+		return bs.BinarySearchStr(find, modifyStr)
 	}
 	bs.high = bs.mid - 1
 	bs.mid = (bs.low + bs.high) / 2
-	return bs.BinarySearchStr(find)
+	return bs.BinarySearchStr(find, modifyStr)
 }
