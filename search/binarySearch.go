@@ -84,7 +84,7 @@ func (bs *binarySearchStr) BinarySearchStr(find string, modifyStr func(string) s
 	s = modifyStr(s)
 	if find == s {
 		return bs.mid
-	} else if bs.low == bs.mid && bs.high == bs.mid {
+	} else if bs.low >= bs.high {
 		return -1
 	}
 	if find > s {
